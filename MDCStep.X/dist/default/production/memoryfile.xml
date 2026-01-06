@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/production/MDCStep.X.production.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>267408</length>                 
+      <used>7684</used>                     
+      <free>259724</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>32768</length>                 
+      <used>1698</used>                     
+      <free>31070</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
