@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/default/production/MDCStep.X.production.elf">                 
+  <executable name="dist/default/debug/MDCStep.X.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>267408</length>                 
-      <used>9624</used>                     
-      <free>257784</free>                     
+      <used>9656</used>                     
+      <free>257752</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>32768</length>                 
-      <used>1798</used>                     
-      <free>30970</free>                     
+      <length>33280</length>                 
+      <used>2822</used>                     
+      <free>30458</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

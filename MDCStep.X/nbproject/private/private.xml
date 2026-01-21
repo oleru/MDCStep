@@ -6,6 +6,8 @@
             <file>file:/C:/projects/Sealight/MDCStep/src/main.c</file>
             <file>file:/C:/projects/Sealight/MDCStep/src/config/default/peripheral/i2c/master/plib_i2c1_master.h</file>
             <file>file:/C:/projects/Sealight/MDCStep/src/config/default/peripheral/i2c/master/plib_i2c1_master.c</file>
+            <file>file:/C:/projects/Sealight/MDCStep/src/tlv493d.c</file>
+            <file>file:/C:/projects/Sealight/MDCStep/src/ModbusSlave.c</file>
         </group>
     </open-files>
 </project-private>
