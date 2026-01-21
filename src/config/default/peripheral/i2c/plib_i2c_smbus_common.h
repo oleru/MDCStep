@@ -1,22 +1,25 @@
 /*******************************************************************************
- System Interrupts File
+  Inter-Integrated Circuit (I2C) Library
+  Header File
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    interrupt.h
+    plib_i2c_smbus_common.h
 
   Summary:
-    Interrupt vectors mapping
+    I2C SMBUS PLIB Common Implementation file
 
   Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+    This file defines the interface to the I2C peripheral library.
+    This library provides access to and control of the associated peripheral
+    instance.
 
+*******************************************************************************/
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2025 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2018-2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,33 +39,47 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
 // DOM-IGNORE-END
-
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
+
+#ifndef PLIB_I2C_SMBUS_COMMON_H
+#define PLIB_I2C_SMBUS_COMMON_H
+
 #include <stdint.h>
-
-
+#include <stdbool.h>
+#include <stddef.h>
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Handler Routines
+// Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
-void CORE_TIMER_InterruptHandler( void );
-void UART1_RX_InterruptHandler( void );
-void UART1_TX_InterruptHandler( void );
-void UART1_ERR_InterruptHandler( void );
-void I2C1_MASTER_InterruptHandler( void );
-void I2C1_BUS_InterruptHandler( void );
+/* This section lists the other files that are included in this file.
+*/
+
+uint8_t SMBUSCRC8Byte(uint8_t initCRC, uint8_t data);
+uint8_t SMBUSCRC8Buffer(uint8_t initCRC, void* pData, uint32_t size);
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 
 
-#endif // INTERRUPTS_H
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+}
+#endif
+// DOM-IGNORE-END
+
+#endif /* PLIB_I2C_SMBUS_COMMON_H */

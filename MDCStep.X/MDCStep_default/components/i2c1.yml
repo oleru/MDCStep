@@ -1,0 +1,64 @@
+configVersion: 1.0.0
+componentName: i2c1
+coreVersion: 5.8.3
+device: PIC32MM0256GPM064
+library: []
+dependency:
+- dependencyPackage: class com.microchip.mcc.harmony.HarmonyModule
+  name: i2c1
+  type: module
+  version: ''
+- dependencyPackage: ''
+  name: csp
+  type: package
+  version: v3.25.0
+customDataClassName: com.microchip.utils_mh3.utils.persistence.CustomModuleData
+data:
+  attachments: {}
+  elementPosition:
+    attributes:
+      id: __ROOTVIEW
+    children:
+    - children:
+      - attributes:
+          id: i2c1
+          x: '23'
+          y: '242'
+        type: ElementPosition
+      type: ElementPositions
+    type: ComponentGraph
+  symbols:
+    BRG_VALUE:
+      attributes:
+        id: BRG_VALUE
+      children:
+      - children:
+        - attributes:
+            id: i2c1
+            value: '237'
+          type: Dynamic
+        type: Values
+      type: Integer
+    I2CS_RISE_TIME_CORE_TIMER_CNTS:
+      attributes:
+        id: I2CS_RISE_TIME_CORE_TIMER_CNTS
+      children:
+      - children:
+        - attributes:
+            id: i2c1
+            value: '3'
+          type: Dynamic
+        type: Values
+      type: Integer
+    I2CS_SETUP_TIME_CORE_TIMER_CNTS:
+      attributes:
+        id: I2CS_SETUP_TIME_CORE_TIMER_CNTS
+      children:
+      - children:
+        - attributes:
+            id: i2c1
+            value: '1'
+          type: Dynamic
+        type: Values
+      type: Integer
+  userData: {}

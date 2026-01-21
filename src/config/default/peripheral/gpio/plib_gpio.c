@@ -66,11 +66,13 @@ void GPIO_Initialize ( void )
     CNPUASET = 0x60; /* Pull-Up Enable */
     CNPDASET = 0x20c; /* Pull-Down Enable */
     /* PORTB Initialization */
+    ODCBSET = 0x20a0; /* Open Drain Enable */
     LATB = 0x0; /* Initial Latch Value */
     TRISBCLR = 0x4c44; /* Direction Control */
     ANSELBCLR = 0xe00f; /* Digital Mode Enable */
     CNPDBSET = 0x200; /* Pull-Down Enable */
     /* PORTC Initialization */
+    ODCCSET = 0x200; /* Open Drain Enable */
     LATC = 0x100; /* Initial Latch Value */
     TRISCCLR = 0x4506; /* Direction Control */
     ANSELCCLR = 0x122; /* Digital Mode Enable */
@@ -88,9 +90,11 @@ void GPIO_Initialize ( void )
     RPINR9bits.U2RXR = 20;
 
     /* PPS Output Remapping */
-    RPOR2bits.RP9R = 8;
+    RPOR2bits.RP11R = 8;
     RPOR3bits.RP13R = 9;
     RPOR5bits.RP23R = 4;
+    RPOR2bits.RP9R = 8;
+    RPOR4bits.RP18R = 1;
 
 
 }

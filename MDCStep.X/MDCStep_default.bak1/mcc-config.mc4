@@ -1,6 +1,5 @@
 configVersion: 1.0.0
 coreVersion: 5.8.3
-spaHostVersion: 1.2.0
 device: PIC32MM0256GPM064
 deviceLibrary: {}
 groupModules: []
@@ -16,9 +15,9 @@ generatedFileHashHistoryMap:
 - file: ..\src\config\default\device.h
   hash: 4d4341a6f9628cea0bf73f980b639f7cb81089e55a60ad7e434be2a71e477442
 - file: ..\src\config\default\exceptions.c
-  hash: df6a7db71f29db985de306abd7b848a24111cef6398ccfb9479449ae4fbc069d
+  hash: 265c985839caadb2fa9e8fc76e7bc3c160e31e9b2c96dc4006add33e5d7ee212
 - file: ..\src\config\default\initialization.c
-  hash: b0f3df1d7550ef008ddc295c94c1585cdd5279066989440f6b46b6ff7224136e
+  hash: 1afce5c3f165b33489bffaa19a73e0cdab22899b57944198002992238c6e3e17
 - file: ..\src\config\default\interrupts.c
   hash: 6ee876c990c5e328e0d1eb532bc89eb5a8ba787ba8417a9a58e656dde341e487
 - file: ..\src\config\default\interrupts.h
@@ -36,9 +35,9 @@ generatedFileHashHistoryMap:
 - file: ..\src\config\default\peripheral\evic\plib_evic.c
   hash: 6024ada734562eb9f93d5cc0644e855930a77cb7a4e654007335929760fada48
 - file: ..\src\config\default\peripheral\evic\plib_evic.h
-  hash: c3713e8874f82c773b96cc499054e6cf0b691f942b601e9487bd947d582f733c
+  hash: 51ee35d6c1a13447fe5d8b63cd7a0e8b8ef10c991bb8ff47490daf855f55fcf1
 - file: ..\src\config\default\peripheral\gpio\plib_gpio.c
-  hash: 09939bdaaf10bf5557249a7f38460d01efc12f0e95960d42ce2fe575d7e01419
+  hash: 47cf4c6038040bb57060cb80d08a5dee8d184d607c156d42ad1ab6b1e6af13ae
 - file: ..\src\config\default\peripheral\gpio\plib_gpio.h
   hash: 6da7e5037c41d4c328ea8da05116d7783195a19e383412bfd8a36c09aaf38dd8
 - file: ..\src\config\default\peripheral\i2c\master\plib_i2c1_master.c
@@ -60,6 +59,6 @@ generatedFileHashHistoryMap:
 - file: ..\src\config\default\stdio\xc32_monitor.c
   hash: 858f8710d4287200a5ee7f3b3ad7c24f505aed9c05c16956ab0ff9f7bb162a6a
 - file: ..\src\config\default\toolchain_specifics.h
-  hash: f6f3282ecb4ad8b5ba3487b7d7b8f6cfa3f977240726af07eaab058caf904381
+  hash: b4de6e02e3e48c62f7ba233405ffdf6ef31bb971d1a7b49efa1676f45cabc1ac
 - file: ..\src\main.c
   hash: d3c233d419e6304bfacbafc18cc68c0f5c26e365f23b20ea40ccfac458f664c5

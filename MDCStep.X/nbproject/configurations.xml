@@ -19,6 +19,13 @@
             <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
               <itemPath>../src/config/default/peripheral/gpio/plib_gpio.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <logicalFolder name="master" displayName="master" projectFiles="true">
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c1_master.h</itemPath>
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c_master_common.h</itemPath>
+              </logicalFolder>
+              <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.h</itemPath>
@@ -31,6 +38,7 @@
         </logicalFolder>
       </logicalFolder>
       <itemPath>../src/ModbusSlave.h</itemPath>
+      <itemPath>../src/tlv493d.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -43,6 +51,7 @@
           <itemPath>MDCStep_default/components/dfp.yml</itemPath>
           <itemPath>MDCStep_default/components/uart1.yml</itemPath>
           <itemPath>MDCStep_default/components/core.yml</itemPath>
+          <itemPath>MDCStep_default/components/i2c1.yml</itemPath>
         </logicalFolder>
         <itemPath>MDCStep_default/mcc-config.mc4</itemPath>
       </logicalFolder>
@@ -79,6 +88,12 @@
             <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
               <itemPath>../src/config/default/peripheral/gpio/plib_gpio.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <logicalFolder name="master" displayName="master" projectFiles="true">
+                <itemPath>../src/config/default/peripheral/i2c/master/plib_i2c1_master.c</itemPath>
+              </logicalFolder>
+              <itemPath>../src/config/default/peripheral/i2c/plib_i2c_smbus_common.c</itemPath>
+            </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.c</itemPath>
             </logicalFolder>
@@ -93,6 +108,7 @@
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
       <itemPath>../src/ModbusSlave.c</itemPath>
+      <itemPath>../src/tlv493d.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>

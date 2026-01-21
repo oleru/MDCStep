@@ -11,7 +11,7 @@ dependency:
 - dependencyPackage: ''
   name: csp
   type: package
-  version: v3.25.0
+  version: v3.22.2
 customDataClassName: com.microchip.utils_mh3.utils.persistence.CustomModuleData
 data:
   attachments: {}
@@ -3567,7 +3567,7 @@ data:
       children:
       - children:
         - attributes:
-            value: 'true'
+            value: 'false'
           type: User
         type: Values
       type: Boolean
@@ -3607,16 +3607,6 @@ data:
           type: User
         type: Values
       type: KeyValueSet
-    CONFIG_ALTI2C:
-      attributes:
-        id: CONFIG_ALTI2C
-      children:
-      - children:
-        - attributes:
-            value: 'ON'
-          type: User
-        type: Values
-      type: Combo
   userData:
     children:
     - attributes:

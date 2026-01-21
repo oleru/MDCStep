@@ -70,6 +70,8 @@ void CORE_TIMER_Handler (void);
 void UART1_RX_Handler (void);
 void UART1_TX_Handler (void);
 void UART1_ERR_Handler (void);
+void I2C1_MASTER_Handler (void);
+void I2C1_BUS_Handler (void);
 
 
 // *****************************************************************************
@@ -95,6 +97,16 @@ void __attribute__((used)) __ISR(_UART1_TX_VECTOR, ipl1SOFT) UART1_TX_Handler (v
 void __attribute__((used)) __ISR(_UART1_ERR_VECTOR, ipl1SOFT) UART1_ERR_Handler (void)
 {
     UART1_ERR_InterruptHandler();
+}
+
+void __attribute__((used)) __ISR(_I2C1_MASTER_VECTOR, ipl1SOFT) I2C1_MASTER_Handler (void)
+{
+    I2C1_MASTER_InterruptHandler();
+}
+
+void __attribute__((used)) __ISR(_I2C1_BUS_VECTOR, ipl1SOFT) I2C1_BUS_Handler (void)
+{
+    I2C1_BUS_InterruptHandler();
 }
 
 

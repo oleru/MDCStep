@@ -2,7 +2,7 @@
 
 manifest_file_version: 1.0.0
 project: MDCStep
-creation_date: 2026-01-06T18:06:59.418+01:00[Europe/Berlin]
+creation_date: 2026-01-13T22:32:03.363+01:00[Europe/Berlin]
 operating_system: Windows 11
 mcc_mode: IDE
 mcc_mode_version: v6.25
@@ -18,4 +18,4 @@ device_library: {library_class: com.microchip.mcc.harmony.Harmony3Library, name:
   version: Bundled}
 packs: {name: PIC32MM-GPM-0XX_DFP, version: 1.4.156}
 modules:
-- {name: csp, type: HARMONY, version: v3.22.2}
+- {name: csp, type: HARMONY, version: v3.25.0}
