@@ -176,10 +176,9 @@ extern "C" {
 #define MBS_TLV493D_PWRDOWN                 (MBS_TLV493D_X + 6u)
 #define MBS_TLV493D_VALID                   (MBS_TLV493D_X + 7u)
 #define MBS_TLV493D_AGE                     (MBS_TLV493D_X + 8u)
+#define MBS_TLV493D_HEADING                 (MBS_TLV493D_X + 9u)            // int16: [-180..180]
+#define MBS_TLV493D_TEMP_C                  (MBS_TLV493D_X + 10u)           // int16: whole °C    
 
-// Antall TLV-registere brukt
-#define MBS_TLV493D_COUNT       9u    
-    
 //           556677889900
 #define MBS_FW_VER_DATE_TAG                 75                              // __DATE__ "Jan 24 2011"
                                                                             //                1122

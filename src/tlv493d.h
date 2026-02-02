@@ -35,7 +35,21 @@ void TLV493D_Init(uint8_t i2c_addr);
 void TLV493D_Task(uint32_t now_ms);
 bool TLV493D_GetLatest(TLV493D_Data_t *out, uint32_t now_ms, uint32_t *age_ms);
 
+
+/* =========================================================================
+ * Derived/filtered convenience values (no floating point)
+ *  - Heading is in whole degrees, range [-180..180]
+ *  - Temperature is in whole °C (rounded), range roughly [-50..150]
+ *
+ * Internally these are computed + low-pass filtered each time a new valid sample arrives.
+ * Temperature conversion follows datasheet: T25=340 LSB and 1.1 °C/LSB.
+ * ========================================================================= */
+bool TLV493D_GetHeadingDeg(int16_t *heading_deg, uint32_t now_ms, uint32_t *age_ms);
+bool TLV493D_GetTemperatureC(int16_t *temp_c, uint32_t now_ms, uint32_t *age_ms);
+bool TLV493D_GetHeadingTemp(int16_t *heading_deg, int16_t *temp_c, uint32_t now_ms, uint32_t *age_ms);
+
 /* Pass this directly to I2C1_CallbackRegister() */
 void TLV493D_I2C_Callback(uintptr_t context);
 
 #endif /* TLV493D_H */
+

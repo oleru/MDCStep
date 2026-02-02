@@ -94,6 +94,9 @@ int main(void)
 {
     uint8_t myModBusAddr;
     uint8_t RdBuffer[10];
+    int16_t headingDeg = 0;
+    int16_t tempC = 0;
+
 
     /* Initialize all modules */
     SYS_Initialize(NULL);
@@ -148,7 +151,10 @@ int main(void)
             MBS_HoldRegisters[MBS_TLV493D_CH] = (uint16_t)mag.channel;
             MBS_HoldRegisters[MBS_TLV493D_PWRDOWN] = (uint16_t)mag.powerDown;
 
-            /* Ekstra (valgfritt): status/freshness ? bruk ledige registre hos deg */
+            (void)TLV493D_GetHeadingTemp(&headingDeg, &tempC, myTime, NULL);
+            MBS_HoldRegisters[MBS_TLV493D_HEADING] = (uint16_t)(int16_t)headingDeg; /* [-180..180] */
+            MBS_HoldRegisters[MBS_TLV493D_TEMP_C] = (uint16_t)(int16_t)tempC; /* whole °C */
+
             MBS_HoldRegisters[MBS_TLV493D_VALID] = (uint16_t)(tlvValid ? 1u : 0u);
             MBS_HoldRegisters[MBS_TLV493D_AGE] = (uint16_t)tlvAgeMs; /* ms siden sist gyldig */
         }

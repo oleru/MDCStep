@@ -36,7 +36,7 @@ static uint32_t i2cStartT = 0u;
 static uint32_t i2cBusyT  = 0u;
 static uint8_t  tlvFails  = 0u;
 
-/* konfig-buffer â€“ justeres etter factory-read */
+/* konfig-buffer ? justeres etter factory-read */
 static uint8_t tlvConfigBuf[4] = {
     0x00, /* W0: register pointer */
     0x00, /* W1: MOD1 */
@@ -49,6 +49,113 @@ static TLV493D_Data_t lastSample;
 static uint8_t  lastFrm = 0xFFu;
 static bool     sampleValid = false;
 static uint32_t lastUpdateMs = 0u;
+
+/* ===================== Derived / filtered values ===================== */
+#define TLV_HEADING_IIR_SHIFT     3   /* 1/8 */
+#define TLV_TEMP_IIR_SHIFT        4   /* 1/16 */
+#define TLV_HEADING_HYST_DEG      1   /* publish step */
+#define TLV_TEMP_HYST_C           1   /* publish step */
+
+static bool    headingInit = false;
+static int16_t headingFiltDeg = 0;    /* [-180..180] */
+static int16_t headingStableDeg = 0;  /* hysteresis output */
+
+static bool    tempInit = false;
+static int32_t tempFiltTenths = 0;    /* 0.1°C units */
+static int16_t tempStableC = 0;
+
+/* Wrap angle to [-180..180] */
+static int16_t TLV_Wrap180(int16_t a)
+{
+    while (a > 180)  a = (int16_t)(a - 360);
+    while (a < -180) a = (int16_t)(a + 360);
+    return a;
+}
+
+/* Very fast atan2 approximation in degrees (no float).
+ * Typical error ~1-2 degrees, which is fine when combined with IIR filtering.
+ */
+static int16_t TLV_Atan2ApproxDeg(int16_t y, int16_t x)
+{
+    if (x == 0 && y == 0) return 0;
+
+    int32_t abs_y = (y < 0) ? -(int32_t)y : (int32_t)y;
+    int32_t abs_x = (x < 0) ? -(int32_t)x : (int32_t)x;
+
+    /* avoid 0/0 in the r computation */
+    if (abs_y == 0) {
+        return (x < 0) ? 180 : 0;
+    }
+    if (abs_x == 0) {
+        return (y < 0) ? -90 : 90;
+    }
+
+    /* r in Q15 */
+    int32_t r_q15;
+    int32_t angle; /* degrees */
+    if (x >= 0) {
+        /* angle = 45 - 45 * (x - |y|)/(x + |y|) */
+        int32_t num = (int32_t)x - abs_y;
+        int32_t den = (int32_t)x + abs_y;
+        r_q15 = (den != 0) ? ((num << 15) / den) : 0;
+        angle = 45 - ((45 * r_q15) >> 15);
+    } else {
+        /* angle = 135 - 45 * (x + |y|)/(|y| - x) */
+        int32_t num = (int32_t)x + abs_y;
+        int32_t den = abs_y - (int32_t)x;
+        r_q15 = (den != 0) ? ((num << 15) / den) : 0;
+        angle = 135 - ((45 * r_q15) >> 15);
+    }
+
+    if (y < 0) angle = -angle;
+    return TLV_Wrap180((int16_t)angle);
+}
+
+/* Update heading filter + hysteresis output */
+static void TLV_UpdateHeading(int16_t x, int16_t y)
+{
+    int16_t hNew = TLV_Atan2ApproxDeg(y, x);
+
+    if (!headingInit) {
+        headingInit = true;
+        headingFiltDeg = hNew;
+        headingStableDeg = hNew;
+        return;
+    }
+
+    int16_t d = TLV_Wrap180((int16_t)(hNew - headingFiltDeg));
+    headingFiltDeg = TLV_Wrap180((int16_t)(headingFiltDeg + (d >> TLV_HEADING_IIR_SHIFT)));
+
+    /* Hysteresis publish */
+    int16_t dh = TLV_Wrap180((int16_t)(headingFiltDeg - headingStableDeg));
+    if (dh >= TLV_HEADING_HYST_DEG || dh <= -TLV_HEADING_HYST_DEG) {
+        headingStableDeg = headingFiltDeg;
+    }
+}
+
+/* Temperature conversion:
+ * Datasheet: digital value at 25°C is T25=340 LSB, resolution ~1.1°C/LSB.
+ * Use 0.1°C units to keep precision without floats:
+ *   T(0.1°C) = 250 + (Traw - 340) * 11
+ */
+static void TLV_UpdateTemp(int16_t rawT12)
+{
+    int32_t tTenths = 250 + ((int32_t)rawT12 - 340) * 11;
+
+    if (!tempInit) {
+        tempInit = true;
+        tempFiltTenths = tTenths;
+        tempStableC = (int16_t)((tTenths + 5) / 10); /* rounded */
+        return;
+    }
+
+    tempFiltTenths += (tTenths - tempFiltTenths) >> TLV_TEMP_IIR_SHIFT;
+
+    int16_t tC = (int16_t)((tempFiltTenths + 5) / 10); /* rounded */
+    if (tC >= (tempStableC + TLV_TEMP_HYST_C) || tC <= (tempStableC - TLV_TEMP_HYST_C)) {
+        tempStableC = tC;
+    }
+}
 
 /* ===================== I2C callback ===================== */
 void TLV493D_I2C_Callback(uintptr_t context)
@@ -67,7 +174,7 @@ static uint8_t popcount8(uint8_t v)
 
 static void TLV_SetOddParity(uint8_t w[4])
 {
-    /* Parity bit er bit7 i w[1] (MOD1). Beregn med parity=0 fÃ¸rst */
+    /* Parity bit er bit7 i w[1] (MOD1). Beregn med parity=0 først */
     uint8_t mod1_no_p = (uint8_t)(w[1] & 0x7Fu);
 
     uint32_t ones =
@@ -76,7 +183,7 @@ static void TLV_SetOddParity(uint8_t w[4])
         (uint32_t)popcount8(w[2]) +
         (uint32_t)popcount8(w[3]);
 
-    /* Totalen skal vÃ¦re ODD. Hvis EVEN â†’ sett parity-bit = 1 */
+    /* Totalen skal være ODD. Hvis EVEN ? sett parity-bit = 1 */
     if ((ones & 1u) == 0u) w[1] = (uint8_t)(mod1_no_p | 0x80u);
     else                  w[1] = (uint8_t)(mod1_no_p);
 }
@@ -93,7 +200,7 @@ static inline void TLV_FailStep(void)
         tlvFails = 0u;
         tlvState = TLV_ST_RESET;      /* full reinit */
     } else {
-        tlvState = TLV_ST_READ_DATA;  /* prÃ¸v Ã¥ fortsette lesing */
+        tlvState = TLV_ST_READ_DATA;  /* prøv å fortsette lesing */
     }
 }
 
@@ -113,6 +220,14 @@ void TLV493D_Init(uint8_t i2c_addr)
     lastFrm = 0xFFu;
     sampleValid = false;
     lastUpdateMs = 0u;
+
+    /* Clear derived */
+    headingInit = false;
+    headingFiltDeg = 0;
+    headingStableDeg = 0;
+    tempInit = false;
+    tempFiltTenths = 0;
+    tempStableC = 0;
 
     /* Clear sample */
     lastSample.x = 0;
@@ -186,7 +301,7 @@ void TLV493D_Task(uint32_t now_ms)
                  * MOD1 (W1):
                  *  - behold IICAddr og reserved bits fra factory
                  *  - INT=0, FAST=0, LOW=1
-                 *  - parity settes etterpÃ¥
+                 *  - parity settes etterpå
                  */
                 uint8_t mod1 = (uint8_t)(tlvFactory[7] & 0x7Fu);     /* clear parity */
                 mod1 = (uint8_t)((mod1 & 0xF8u) | 0x01u);            /* ..xxx000 + LOW */
@@ -268,7 +383,7 @@ void TLV493D_Task(uint32_t now_ms)
                  *  - PD==1 (ferdig)
                  *  - FF==1 (ok)
                  *  - T==0 (ikke testmode)
-                 *  - FRM mÃ¥ endre seg (ny sample)
+                 *  - FRM må endre seg (ny sample)
                  */
                 if (ch != 0u || pd == 0u || ff == 0u || t != 0u || frm == lastFrm) {
                     sampleValid = false;
@@ -299,6 +414,10 @@ void TLV493D_Task(uint32_t now_ms)
                 lastSample.channel = ch;
                 lastSample.powerDown = (pd != 0u);
 
+                /* Derived values (filtered) */
+                TLV_UpdateHeading(x, y);
+                TLV_UpdateTemp(rawT12);
+
                 lastFrm = frm;
                 sampleValid = true;
                 lastUpdateMs = nowMs;
@@ -328,4 +447,34 @@ bool TLV493D_GetLatest(TLV493D_Data_t *out, uint32_t now_ms, uint32_t *age_ms)
         *age_ms = (sampleValid ? (uint32_t)(now_ms - lastUpdateMs) : 0xFFFFFFFFu);
     }
     return sampleValid;
+}
+
+
+bool TLV493D_GetHeadingDeg(int16_t *heading_deg, uint32_t now_ms, uint32_t *age_ms)
+{
+    if (heading_deg != NULL) {
+        *heading_deg = headingStableDeg;
+    }
+    if (age_ms != NULL) {
+        *age_ms = (sampleValid ? (uint32_t)(now_ms - lastUpdateMs) : 0xFFFFFFFFu);
+    }
+    return sampleValid && headingInit;
+}
+
+bool TLV493D_GetTemperatureC(int16_t *temp_c, uint32_t now_ms, uint32_t *age_ms)
+{
+    if (temp_c != NULL) {
+        *temp_c = tempStableC;
+    }
+    if (age_ms != NULL) {
+        *age_ms = (sampleValid ? (uint32_t)(now_ms - lastUpdateMs) : 0xFFFFFFFFu);
+    }
+    return sampleValid && tempInit;
+}
+
+bool TLV493D_GetHeadingTemp(int16_t *heading_deg, int16_t *temp_c, uint32_t now_ms, uint32_t *age_ms)
+{
+    bool ok_h = TLV493D_GetHeadingDeg(heading_deg, now_ms, age_ms);
+    bool ok_t = TLV493D_GetTemperatureC(temp_c, now_ms, NULL);
+    return ok_h && ok_t;
 }
