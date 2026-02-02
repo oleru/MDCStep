@@ -162,7 +162,25 @@ extern "C" {
 
 #define MBS_JOYSTICK_SETUP                  50                              // 50 - Joystick setting
 
-                                                                            //           556677889900
+/* ================= TLV493D ? Modbus Holding Registers =================
+ * Base register = 51
+ * Alle påfølgende verdier er sekvensielle
+ */
+
+#define MBS_TLV493D_X                       51u
+#define MBS_TLV493D_Y                       (MBS_TLV493D_X + 1u)
+#define MBS_TLV493D_Z                       (MBS_TLV493D_X + 2u)
+#define MBS_TLV493D_TEMP                    (MBS_TLV493D_X + 3u)
+#define MBS_TLV493D_FRAME                   (MBS_TLV493D_X + 4u)
+#define MBS_TLV493D_CH                      (MBS_TLV493D_X + 5u)
+#define MBS_TLV493D_PWRDOWN                 (MBS_TLV493D_X + 6u)
+#define MBS_TLV493D_VALID                   (MBS_TLV493D_X + 7u)
+#define MBS_TLV493D_AGE                     (MBS_TLV493D_X + 8u)
+
+// Antall TLV-registere brukt
+#define MBS_TLV493D_COUNT       9u    
+    
+//           556677889900
 #define MBS_FW_VER_DATE_TAG                 75                              // __DATE__ "Jan 24 2011"
                                                                             //                1122
 #define MBS_FW_VER_REV_TAG                  81                              // RevBuild "Rev.: 002"
