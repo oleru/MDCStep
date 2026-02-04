@@ -3617,6 +3617,343 @@ data:
           type: User
         type: Values
       type: Combo
+    CHANGE_NOTICE_B_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: CHANGE_NOTICE_B_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_9_ENABLE:
+      attributes:
+        id: EVIC_9_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_B_INTERRUPT_ENABLE:
+      attributes:
+        id: CHANGE_NOTICE_B_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_9_HANDLER_LOCK:
+      attributes:
+        id: EVIC_9_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_B_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: CHANGE_NOTICE_B_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_9_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_9_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_B_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    CHANGE_NOTICE_B_INTERRUPT_HANDLER:
+      attributes:
+        id: CHANGE_NOTICE_B_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_B_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    SYS_PORT_B_CN_USED:
+      attributes:
+        id: SYS_PORT_B_CN_USED
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    SYS_PORT_B_CNEN:
+      attributes:
+        id: SYS_PORT_B_CNEN
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '512'
+          type: Dynamic
+        type: Values
+      type: Hex
+    BSP_PIN_49_CN:
+      attributes:
+        id: BSP_PIN_49_CN
+      children:
+      - children:
+        - attributes:
+            value: 'True'
+          type: User
+        type: Values
+      type: String
+    CHANGE_NOTICE_C_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: CHANGE_NOTICE_C_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_10_ENABLE:
+      attributes:
+        id: EVIC_10_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_C_INTERRUPT_ENABLE:
+      attributes:
+        id: CHANGE_NOTICE_C_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_10_HANDLER_LOCK:
+      attributes:
+        id: EVIC_10_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_C_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: CHANGE_NOTICE_C_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_10_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_10_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_C_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    CHANGE_NOTICE_C_INTERRUPT_HANDLER:
+      attributes:
+        id: CHANGE_NOTICE_C_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_C_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    SYS_PORT_C_CN_USED:
+      attributes:
+        id: SYS_PORT_C_CN_USED
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    SYS_PORT_C_CNEN:
+      attributes:
+        id: SYS_PORT_C_CNEN
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '8192'
+          type: Dynamic
+        type: Values
+      type: Hex
+    BSP_PIN_47_CN:
+      attributes:
+        id: BSP_PIN_47_CN
+      children:
+      - children:
+        - attributes:
+            value: 'True'
+          type: User
+        type: Values
+      type: String
+    CHANGE_NOTICE_D_INTERRUPT_ENABLE_UPDATE:
+      attributes:
+        id: CHANGE_NOTICE_D_INTERRUPT_ENABLE_UPDATE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'false'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_11_ENABLE:
+      attributes:
+        id: EVIC_11_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_D_INTERRUPT_ENABLE:
+      attributes:
+        id: CHANGE_NOTICE_D_INTERRUPT_ENABLE
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_11_HANDLER_LOCK:
+      attributes:
+        id: EVIC_11_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    CHANGE_NOTICE_D_INTERRUPT_HANDLER_LOCK:
+      attributes:
+        id: CHANGE_NOTICE_D_INTERRUPT_HANDLER_LOCK
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    EVIC_11_INTERRUPT_HANDLER:
+      attributes:
+        id: EVIC_11_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_D_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    CHANGE_NOTICE_D_INTERRUPT_HANDLER:
+      attributes:
+        id: CHANGE_NOTICE_D_INTERRUPT_HANDLER
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: CHANGE_NOTICE_D_InterruptHandler
+          type: Dynamic
+        type: Values
+      type: String
+    SYS_PORT_D_CN_USED:
+      attributes:
+        id: SYS_PORT_D_CN_USED
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: 'true'
+          type: Dynamic
+        type: Values
+      type: Boolean
+    SYS_PORT_D_CNEN:
+      attributes:
+        id: SYS_PORT_D_CNEN
+      children:
+      - children:
+        - attributes:
+            id: core
+            value: '20'
+          type: Dynamic
+        type: Values
+      type: Hex
+    BSP_PIN_32_CN:
+      attributes:
+        id: BSP_PIN_32_CN
+      children:
+      - children:
+        - attributes:
+            value: 'True'
+          type: User
+        type: Values
+      type: String
+    BSP_PIN_31_CN:
+      attributes:
+        id: BSP_PIN_31_CN
+      children:
+      - children:
+        - attributes:
+            value: 'True'
+          type: User
+        type: Values
+      type: String
   userData:
     children:
     - attributes:

@@ -274,6 +274,25 @@ typedef struct
     void MBS_ProcessModbus(void);
     void MBS_ReciveData(uint8_t Data);
     void MBS_UART_Putch(uint8_t ch);
+
+/* ************************************************************************** */
+/** Helper functions for 16-bit register bit manipulation
+ */
+static inline void MBS_RegSetBits(volatile uint16_t *reg, uint16_t mask)
+{
+    *reg |= mask;
+}
+
+static inline void MBS_RegClearBits(volatile uint16_t *reg, uint16_t mask)
+{
+    *reg &= (uint16_t)(~mask);
+}
+
+static inline bool MBS_RegIsBitsSet(uint16_t reg, uint16_t mask)
+{
+    return ((reg & mask) == mask);
+}
+
     
     /* Provide C++ Compatibility */
 #ifdef __cplusplus
