@@ -13,6 +13,7 @@
 
 #include "ModbusSlave.h"
 #include "tlv493d.h"   /* TLV493D driver */
+#include "endstop.h"
 
 /* ===================== Konstanter ===================== */
 #define TLV_ADDR            0x1F
@@ -31,6 +32,8 @@ TLV493D_Data_t mag;
 /* ===================== Prototyper ===================== */
 void UpdateTimers(void);
 void MBS_UART_Putch(uint8_t ch);
+
+
 /* ===================== CoreTimer callback ===================== */
 void myCORETIMER(uint32_t status, uintptr_t context)
 {
@@ -101,8 +104,11 @@ int main(void)
     /* Initialize all modules */
     SYS_Initialize(NULL);
 
-    I2C1_CallbackRegister(TLV493D_I2C_Callback, 0);
+    // Endstop inputs are configured by MCC (GPIO_Initialize) already.
+    // This driver uses the existing 1ms CoreTimer tick for edge-detection.
+    ENDSTOP_Init();
 
+    I2C1_CallbackRegister(TLV493D_I2C_Callback, 0);
     TLV493D_Init(TLV_ADDR);
 
     /* Set Modbus Slave Address */
@@ -128,6 +134,7 @@ int main(void)
         if (TimerEvent1ms) {
             TimerEvent1ms = false;
             UpdateTimers();
+            ENDSTOP_Task_1ms();
         }
 
         /* TLV state machine hvert 50 ms */
@@ -153,7 +160,7 @@ int main(void)
 
             (void)TLV493D_GetHeadingTemp(&headingDeg, &tempC, myTime, NULL);
             MBS_HoldRegisters[MBS_TLV493D_HEADING] = (uint16_t)(int16_t)headingDeg; /* [-180..180] */
-            MBS_HoldRegisters[MBS_TLV493D_TEMP_C] = (uint16_t)(int16_t)tempC; /* whole °C */
+            MBS_HoldRegisters[MBS_TLV493D_TEMP_C] = (uint16_t)(int16_t)tempC; /* whole C */
 
             MBS_HoldRegisters[MBS_TLV493D_VALID] = (uint16_t)(tlvValid ? 1u : 0u);
             MBS_HoldRegisters[MBS_TLV493D_AGE] = (uint16_t)tlvAgeMs; /* ms siden sist gyldig */

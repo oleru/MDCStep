@@ -208,10 +208,10 @@ extern "C" {
 #define MBS_SL_STATUS_LAMP_ON               0x0001    
 #define MBS_SL_STATUS_END_STOP_HORIZ_CW     0x0002    
 #define MBS_SL_STATUS_END_STOP_HORIZ_CCW    0x0004    
-#define MBS_SL_STATUS_END_STOP_VERT_CW      0x0008    
-#define MBS_SL_STATUS_END_STOP_VERT_CCW     0x0010    
-#define MBS_SL_STATUS_END_STOP_FOCUS_OUT    0x0020    
-#define MBS_SL_STATUS_END_STOP_FOCUS_IN     0x0040    
+#define MBS_SL_STATUS_END_STOP_VERT_B       0x0008    
+#define MBS_SL_STATUS_END_STOP_VERT_Y       0x0010    
+#define MBS_SL_STATUS_END_STOP_FOCUS_B      0x0020    
+#define MBS_SL_STATUS_END_STOP_FOCUS_Y      0x0040    
 #define MBS_SL_STATUS_ALARM                 0x0080    
 #define MBS_SL_STATUS_GOTO_HORIZ_ALARM      0x0100    
 #define MBS_SL_STATUS_GOTO_VERT_ALARM       0x0200    
