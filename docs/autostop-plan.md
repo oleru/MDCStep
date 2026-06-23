@@ -13,7 +13,7 @@ not be the only layer that prevents mechanical damage.
 
 The current Node-RED baseline is:
 
-- `StepmotorSetup/flows.json`
+- `RaspberryPi/NodeRED/StepmotorSetup/flows.json`
 - Active flow: `Horizontal Vertical CLEAN`
 - Vertical driver: Modbus unit id `1`
 - Horizontal driver: Modbus unit id `2`
@@ -394,7 +394,8 @@ low until limit behavior is proven repeatable.
 
 ## Recommended implementation order
 
-1. Commit `StepmotorSetup/flows.json` as the Node-RED baseline.
+1. Commit `RaspberryPi/NodeRED/StepmotorSetup/flows.json` as the Node-RED
+   baseline.
 2. Add dashboard controls/readback for current, stop/decel, hardware limit setup,
    and status inputs.
 3. Bench-test reduced current on both axes.
@@ -406,6 +407,6 @@ low until limit behavior is proven repeatable.
 
 ## Notes
 
-The old MPLABX project and `src/` firmware are archive material for this phase.
-They should not be used as the active implementation path unless explicitly
-reactivated later.
+The old MPLABX project and `src/` firmware are archived under
+`Firmware/old/MPLABX/`. They should not be used as the active implementation
+path unless explicitly reactivated later.

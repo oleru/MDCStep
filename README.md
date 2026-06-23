@@ -14,11 +14,22 @@ stepper motor drivers, with focus on:
 
 | Path | Purpose |
 | --- | --- |
-| `StepmotorSetup/flows.json` | Current Node-RED flow used for motor testing and driver setup |
-| `StepmotorSetup/UserManual.pdf` | Main ADM/AdamPower communication/register manual |
-| `StepmotorSetup/ADM57S series RS485 stepper motor controller V1.0.pdf` | ADM57S driver manual |
+| `RaspberryPi/NodeRED/StepmotorSetup/flows.json` | Current Node-RED flow used for motor testing and driver setup |
+| `RaspberryPi/NodeRED/StepmotorSetup/UserManual.pdf` | Main ADM/AdamPower communication/register manual |
+| `RaspberryPi/NodeRED/StepmotorSetup/ADM57S series RS485 stepper motor controller V1.0.pdf` | ADM57S driver manual |
 | `docs/autostop-plan.md` | Notes and plan for autostop, current limiting, hardware limits, and recovery |
 | `docs/software-position-limits.md` | Design note for software min/max position limits from angle inputs |
+
+## Project structure
+
+| Path | Purpose |
+| --- | --- |
+| `Hardware/` | Hardware notes, mechanical/electrical context, and PCB material |
+| `Hardware/PCB/` | PCB design files, fabrication exports, schematics, and board notes |
+| `Firmware/backplane/` | Future active firmware for the backplane/controller side |
+| `Firmware/old/MPLABX/` | Archived MPLABX/Harmony firmware project and source |
+| `RaspberryPi/NodeRED/` | Raspberry Pi and Node-RED project files |
+| `docs/` | Cross-project design notes and task documentation |
 
 ## Node-RED baseline
 
@@ -90,9 +101,9 @@ reference only:
 
 | Path | Status |
 | --- | --- |
-| `MDCStep.X/` | Legacy MPLABX project, archived |
-| `src/` | Legacy firmware source, archived |
-| `flows.json` in repository root | Older Node-RED flow/reference |
+| `Firmware/old/MPLABX/MDCStep.X/` | Legacy MPLABX project, archived |
+| `Firmware/old/MPLABX/src/` | Legacy firmware source, archived |
+| `RaspberryPi/NodeRED/old-flows.json` | Older Node-RED flow/reference |
 
 Do not use the MPLABX project as the active implementation path unless the
 project explicitly decides to reactivate it.
@@ -103,7 +114,7 @@ Use GitHub as the tracking point for tested checkpoints.
 
 Recommended loop:
 
-1. Change `StepmotorSetup/flows.json` or notes in `docs/`.
+1. Change `RaspberryPi/NodeRED/StepmotorSetup/flows.json` or notes in `docs/`.
 2. Test in Node-RED.
 3. Commit a clear checkpoint when the test is accepted.
 4. Push `main` to GitHub.
