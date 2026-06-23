@@ -27,6 +27,9 @@ bool TimerEvent250ms = false, TimerEvent1s = false, TimerEvent15s = false;
 uint32_t myLastTime = 0;
 uint32_t mySystemTimeOutTimer;
 
+unsigned char Blink=0xF0;
+
+
 TLV493D_Data_t mag;
 
 /* ===================== Prototyper ===================== */
@@ -99,6 +102,8 @@ int main(void)
     uint8_t RdBuffer[10];
     int16_t headingDeg = 0;
     int16_t tempC = 0;
+    uint32_t cmdTimeOutTimer=0;
+    uint8_t BlinkCnt = 0;
 
 
     /* Initialize all modules */
@@ -121,9 +126,9 @@ int main(void)
               (SW1_2_Get() << 1) |
               (SW1_1_Get()));
 
-    MBS_HoldRegisters[MBS_SL_MODEL] = 5;            /* Searchlight Model */
-    MBS_HoldRegisters[MBS_HD_ID] = (uint16_t)'B';   /* HW_ID */
-    MBS_HoldRegisters[MBS_SW_ID] = 4;               /* SW_ID */
+    MBS_HoldRegisters[MBS_SL_MODEL] = 6;            /* Searchlight Model */
+    MBS_HoldRegisters[MBS_HD_ID] = (uint16_t)'-';   /* HW_ID */
+    MBS_HoldRegisters[MBS_SW_ID] = 1;               /* SW_ID */
 
     CORETIMER_CallbackSet(myCORETIMER, (uintptr_t)NULL);
     CORETIMER_Start();
@@ -141,12 +146,40 @@ int main(void)
         if (TimerEvent50ms) {
             TimerEvent50ms = false;
             TLV493D_Task(myTime);
+            
+            if(cmdTimeOutTimer==0) {
+                if(Blink!=0x0A) {
+                    Blink=0x0F;  // Standby - No bus
+                }
+            } else {
+                Blink=0xAA;  // Communication is detected...
+            }
+            
+            // Active Command?
+            if(cmdTimeOutTimer>50) {
+                cmdTimeOutTimer -= 50;
+            } else if(cmdTimeOutTimer==50) {
+
+                // Control Timeout
+                cmdTimeOutTimer = 0;
+                MBS_HoldRegisters[MBS_SL_STATUS] = 0x0000;  // Clear SLStaus
+            }
+
         }
 
         /* eksponer data hvert 250 ms */
         if (TimerEvent250ms) {
             TimerEvent250ms = false;
 
+            // Status blink
+            BlinkCnt++;
+            BlinkCnt &= 0x07;
+            if(Blink&(0x01<<BlinkCnt)) {
+                BLUE_LED_Set();
+            } else {
+                BLUE_LED_Clear();    
+            }
+                        
             uint32_t tlvAgeMs = 0;
             bool tlvValid = TLV493D_GetLatest(&mag, myTime, &tlvAgeMs);
 
@@ -166,9 +199,24 @@ int main(void)
             MBS_HoldRegisters[MBS_TLV493D_AGE] = (uint16_t)tlvAgeMs; /* ms siden sist gyldig */
         }
 
+        
+        if (TimerEvent1s) {
+            TimerEvent1s = false;
+
+            MBS_HoldRegisters[MBS_OWN_ID_SW] =
+            10 + ((SW1_8_Get() << 3) |
+                  (SW1_4_Get() << 2) |
+                  (SW1_2_Get() << 1) |
+                  (SW1_1_Get()));
+        
+        } //..if (TimerEvent1s)
+            
         if (UART1_ReadCountGet() > 0) {
             UART1_Read(RdBuffer, 1);
             MBS_ReciveData(RdBuffer[0]);
+            
+            //cmdTimeOutTimer = 2000;
+            Blink = 0xA;
         }
 
         /* Process Modbus */
