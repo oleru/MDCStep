@@ -33,6 +33,35 @@ Relevant registers already used by the flow:
 | `0x00D2` | 210 | Set current absolute position |
 | `0x00D4` | 212 | Enable/release |
 
+## Position ratio and displayed degrees
+
+The active Node-RED flow converts driver counter value to displayed degrees:
+
+```text
+angle_deg = 180 * raw_driver_count / ratio
+```
+
+Driver position is a signed 32-bit value, so the useful counter range is:
+
+```text
+-2147483648 .. +2147483647
+```
+
+The ratio inputs should therefore allow large values and both signs:
+
+```text
+-2147483647 .. +2147483647
+```
+
+Negative ratio is intentional. It lets us invert displayed angle if the motor or
+gear counts in the opposite direction from the expected mechanical direction.
+
+JavaScript `Number` precision is not the limiting factor here. All 32-bit driver
+counter values are represented exactly. The practical issue is display
+resolution: with a large ratio, a small raw movement produces a very small angle.
+The flow should show extra decimals for small angles so a valid movement does
+not appear as `0.0°`.
+
 Current `0x00C8` command values from the manual:
 
 | Value | Meaning |
