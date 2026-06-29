@@ -17,6 +17,7 @@ Use the software position limit registers:
 | `0x006E~0x006F` | `INT32` | Software negative limit |
 | `0x0070~0x0071` | `INT32` | Software positive limit |
 | `0x0006~0x0007` | `UINT32` | Status register, includes software limit flags |
+| `0x00D0~0x00D1` | `INT32` | Run to absolute position |
 | `0x00D2~0x00D3` | `INT32` | Set current motor position |
 
 Manual behavior:
@@ -41,7 +42,7 @@ The active Node-RED flow displays position as degrees using:
 angle_deg = 180 * raw_count / ratio
 ```
 
-Therefore, to write a limit from degrees:
+Therefore, to write a limit or goto target from degrees:
 
 ```text
 raw_count = round(angle_deg * ratio / 180)
@@ -150,6 +151,30 @@ Write positive limit:
 ```
 
 `112` decimal is `0x0070`.
+
+## Goto from angle
+
+Absolute goto uses the same angle-to-counter conversion:
+
+```text
+raw_count = round(angle_deg * ratio / 180)
+```
+
+The active Node-RED flow exposes `Goto angle °` in both axis blocks. The write
+target is:
+
+| Register | Type | Meaning |
+| --- | --- | --- |
+| `0x00D0~0x00D1` | `INT32` | Run to absolute position |
+
+The Modbus write is `FC16`, quantity `2`, with the same word order:
+
+```text
+[lowWord, highWord]
+```
+
+Negative ratio values are supported, so a positive displayed angle can become a
+negative driver counter value if the configured gear direction is inverted.
 
 ## Recommended Node-RED workflow
 

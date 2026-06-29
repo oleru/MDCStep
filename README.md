@@ -88,9 +88,14 @@ See `docs/software-position-limits.md` for details.
 | `0x0045` | Maximum overload current, unit `0.01 A` |
 | `0x006E~0x006F` | Software negative position limit, `INT32` |
 | `0x0070~0x0071` | Software positive position limit, `INT32` |
+| `0x0096` | Start speed, rpm |
+| `0x0097` | Stop speed, rpm |
+| `0x0098` | Acceleration time, ms |
+| `0x0099` | Deceleration time, ms |
 | `0x009B` | Hardware positive/negative limit input setup |
 | `0x00C8` | Run/stop command |
 | `0x00CA` | Jog command |
+| `0x00D0~0x00D1` | Run to absolute position, `INT32` |
 | `0x00D2~0x00D3` | Set current motor position |
 | `0x00D4` | Enable/release/restart |
 

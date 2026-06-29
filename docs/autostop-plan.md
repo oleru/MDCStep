@@ -392,6 +392,45 @@ Add these to the Node-RED dashboard or diagnostic snapshot:
 For protecting hardware, prioritize lower current and a fast stop. Keep speed
 low until limit behavior is proven repeatable.
 
+## Slow start and fast controlled stop
+
+The driver does not appear to have a separate "enable slow start" bit. The
+motion profile is controlled through the speed ramp registers:
+
+| Register | Purpose | Practical use |
+| --- | --- | --- |
+| `0x0096` | Start speed | Keep low for gentle start from standstill |
+| `0x0097` | Stop speed | Keep low for controlled final stop |
+| `0x0098` | Acceleration time | Increase for slow start |
+| `0x0099` | Deceleration time | Decrease for fast controlled stop |
+| `0x009A` | Run speed | Existing dashboard speed command |
+
+Current Node-RED flow exposes these as persistent `Motion profile` settings in
+the `Configuration` block:
+
+- `Start speed rpm`
+- `Stop speed rpm`
+- `Accel time ms`
+- `Decel time ms`
+
+Suggested first bench values:
+
+| Setting | Start value | Reason |
+| --- | ---: | --- |
+| Start speed | `0 rpm` | Start from lowest possible speed |
+| Stop speed | `0 rpm` | Decelerate down to lowest possible speed |
+| Acceleration time | `2000 ms` | Gentle slow start |
+| Deceleration time | `100 ms` | Fast controlled stop without using emergency stop |
+
+Use `Calc motion` first to verify the values, then write one axis at a time.
+After writing, use `Read snapshot` in Motor Diagnose to confirm readback for
+`0x0096..0x0099`.
+
+Important distinction:
+
+- `0x0099` gives a fast controlled deceleration.
+- `0x00C8 = 256` is emergency stop and should remain a separate safety action.
+
 ## Recommended implementation order
 
 1. Commit `RaspberryPi/NodeRED/StepmotorSetup/flows.json` as the Node-RED
