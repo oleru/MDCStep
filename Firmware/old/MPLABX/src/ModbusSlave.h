@@ -179,6 +179,9 @@ extern "C" {
 #define MBS_TLV493D_HEADING                 (MBS_TLV493D_X + 9u)            // int16: [-180..180]
 #define MBS_TLV493D_TEMP_C                  (MBS_TLV493D_X + 10u)           // int16: whole °C    
 
+/* X5 FA output, PIC pin 41 / RC14. 0 = low, non-zero = high. */
+#define MBS_X5_FA                           62u
+
 //           556677889900
 #define MBS_FW_VER_DATE_TAG                 75                              // __DATE__ "Jan 24 2011"
                                                                             //                1122

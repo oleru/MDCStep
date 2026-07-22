@@ -222,6 +222,13 @@ int main(void)
         /* Process Modbus */
         MBS_ProcessModbus();
 
+        /* X5 FA output: holding register 62 controls PIC pin 41 / RC14. */
+        if (MBS_HoldRegisters[MBS_X5_FA] != 0u) {
+            LATCSET = (1u << 14);
+        } else {
+            LATCCLR = (1u << 14);
+        }
+
         /* Guard the Watchdog */
         WDTCONbits.WDTCLRKEY = 0x5743;
     }
