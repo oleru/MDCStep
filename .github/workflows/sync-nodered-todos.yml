@@ -1,0 +1,41 @@
+name: Sync Node-RED ToDo files
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - RaspberryPi/NodeRED/StepmotorSetup/flows.json
+      - tools/sync_nodered_todos.js
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Generate tracked ToDo files
+        run: node tools/sync_nodered_todos.js
+
+      - name: Commit updated ToDo files
+        run: |
+          if git diff --quiet -- \
+            RaspberryPi/NodeRED/StepmotorSetup/TODO_NODE_RED.md \
+            Hardware/PCB/TODO_BACKPLANE_PCB.md; then
+            echo "ToDo files are already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            RaspberryPi/NodeRED/StepmotorSetup/TODO_NODE_RED.md \
+            Hardware/PCB/TODO_BACKPLANE_PCB.md
+          git commit -m "Sync ToDo lists from Node-RED Notes"
+          git push
